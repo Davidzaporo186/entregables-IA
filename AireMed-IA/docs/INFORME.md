@@ -1,0 +1,26 @@
+# AireMed IA — Informe final breve
+**Asignatura:** SI3003 – Inteligencia Artificial, Universidad EAFIT. **Fecha:** 12 de noviembre de 2026. **Integrantes:** [completar antes de enviar].
+
+## 1. Problema y objetivo
+La contaminación por material particulado fino (PM2.5) es un asunto ambiental relevante en el Valle de Aburrá. Los datos abiertos pueden ser difíciles de interpretar para usuarios no especializados. Se desarrolló AireMed IA, un MVP académico que permite consultar y comparar estadísticas históricas de estaciones, estimar la media mensual mediante una técnica clásica de IA y formular preguntas a un agente LLM apoyado por documentación ambiental. El proyecto **no monitorea en tiempo real ni predice la contaminación de mañana**.
+
+## 2. Datos y fuentes
+Se transcribieron los resúmenes estadísticos del documento **SIATA, Anexo del Informe Procuraduría de enero de 2025**, sección de PM2.5, tablas 1.1 y 1.2, disponibles en: https://siata.gov.co/Informes_Aire/121_InformeProcuraduria_Enero2025/F-GAA-RA-82_InformeProcuraduria_Enero2025_Anexos.pdf . Son **23 estaciones** (12 de Medellín, 11 de otros municipios) y cinco mediciones relevantes: CMD (cantidad de muestras diarias), MIN-D, MEAN-D, MAX-D y NEND (excedencias). El archivo `data/pm25_enero_2025.csv` permite ejecutar la aplicación sin conexión al portal. La unidad para concentraciones es µg/m³. Cada fila representa un resumen mensual por estación, no un registro diario. La fuente de categorías ICA diario es la Alcaldía de Medellín: https://www.medellin.gov.co/es/secretaria-medio-ambiente/calidad-del-aire/aire-en-el-valle-de-aburra/ .
+
+## 3. Técnica IA clásica y comparación cuantitativa
+Implementamos manualmente con NumPy un **KNN de regresión** (k=3, distancia euclidiana sobre características normalizadas por desviación típica del entrenamiento). Entrada: `MIN-D`, `MAX-D`; salida: estimación de `MEAN-D` de enero de 2025. Se realizó **validación leave-one-out (LOOCV)**: se retira una estación, se entrena con las otras 22, se estima su media y se repite 23 veces. En cada partición la normalización se calcula solo con datos de entrenamiento. **Línea base:** promedio `MEAN-D` de las otras 22 estaciones, independiente de la estación excluida. La métrica es MAE en µg/m³.
+
+**Resultado reproducible:** MAE KNN = **1.6072 µg/m³**; MAE línea base = **3.0893 µg/m³**; reducción relativa de MAE ≈ **47.97 %**. Los resultados son retrospectivos y geográficos, **no validación temporal**. Además, MIN-D y MAX-D del mismo mes solo están disponibles una vez transcurrido ese período; el ejercicio demuestra aprendizaje y generalización entre estaciones, no capacidad de anticipar días futuros. Con 23 muestras, los resultados son sensibles a la selección de estaciones y variables.
+
+## 4. Agente LLM y RAG
+Se implementó un ciclo de herramientas con la API Groq compatible con OpenAI (modelo configurable). El agente puede usar **`get_pm25(estacion)`**, **`estimate_monthly_mean(estacion)`** y **`search_environmental_docs(pregunta)`**. El ciclo tiene límite de rondas, incluye resultados en el historial y devuelve trazabilidad; maneja argumentos inválidos, estaciones desconocidas y problemas de API. El prompt obliga a pedir herramientas para cifras y documentación, citar enlaces suministrados y reconocer información no disponible.
+
+El corpus RAG tiene cuatro fragmentos curados y enlazados de SIATA y Alcaldía. Recuperación base: TF-IDF + coseno (funciona sin internet). Modo semántico opcional: embeddings multilingües con SentenceTransformers e índice FAISS (`requirements-rag.txt`, `RAG_BACKEND=faiss`); exige descargar el modelo. Los fragmentos son síntesis del proyecto, no la totalidad de las publicaciones oficiales. La conexión efectiva al LLM requiere clave Groq privada y conectividad y no debe afirmarse validada si no se ejecutó.
+
+## 5. Dashboard y experiencia de usuario
+La aplicación Streamlit incluye filtro por municipio y estación, barras de medias mensuales, dispersión de rangos MIN-D/MAX-D, gráfico de valores observados frente a KNN, métricas comparativas, tabla exportable y chat con trazabilidad de herramientas. El usuario puede abrir una demostración de las herramientas incluso sin API. Las medias mensuales no se clasifican como un ICA oficial de 24 horas.
+
+## 6. Evaluación, límites y responsabilidad
+Se ejecutaron **12 pruebas automáticas de código**, incluyendo una simulación controlada de tool calling, y una comprobación offline de las tres herramientas (3/3 OK). Estos tests **no demuestran que Groq seleccione correctamente herramientas o cite las fuentes**. Para eso se suministran 12 preguntas en `scripts/evaluate_agent.py --mode llm`, cuya tasa debe registrarse al ejecutarlo con una clave real y revisar sus respuestas. Los errores principales posibles son: documentos incompletos, citas omitidas, respuestas especulativas, indisponibilidad de la API y baja representatividad de un único mes. El sistema es exclusivamente académico, no ofrece diagnóstico ni consejo sanitario. No se manejan datos personales. El uso de IA generativa debe declararse conforme a `docs/DECLARACION_IA.md`.
+
+**Reproducibilidad:** `python -m pip install -r requirements.txt`; `python -m pytest -q`; `python scripts/evaluate_agent.py --mode offline`; `python -m streamlit run app.py`. Consulta README para uso de Groq y FAISS.

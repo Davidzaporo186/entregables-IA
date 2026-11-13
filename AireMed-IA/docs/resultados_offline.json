@@ -1,0 +1,65 @@
+{
+  "mode": "offline_solo_herramientas",
+  "timestamp_utc": "2026-11-13T15:25:23.345643+00:00",
+  "results": {
+    "get_pm25": {
+      "ok": true,
+      "sample": {
+        "estacion": "CEN-TRAF",
+        "municipio": "Medellín",
+        "periodo": "2025-01",
+        "promedio_mensual_pm25": 25.6,
+        "minimo_diario": 16.8,
+        "maximo_diario": 32.7,
+        "excedencias": 0,
+        "nota_interpretacion": "No convertir la media mensual en categoría ICA de 24 horas.",
+        "advertencia": "Dato histórico agregado de enero 2025; no corresponde al día de hoy.",
+        "fuente": "https://siata.gov.co/Informes_Aire/121_InformeProcuraduria_Enero2025/F-GAA-RA-82_InformeProcuraduria_Enero2025_Anexos.pdf"
+      }
+    },
+    "estimate_monthly_mean": {
+      "ok": true,
+      "sample": {
+        "estacion": "ITA-CJUS",
+        "periodo": "2025-01",
+        "estimacion_media_mensual_pm25": 17.77,
+        "media_observada_para_comparacion": 22.7,
+        "mae_validacion_cruzada": 1.61,
+        "advertencia": "Estimación retrospectiva fuera de muestra basada en extremos del mismo mes, NO pronóstico de mañana."
+      }
+    },
+    "search_environmental_docs": {
+      "ok": true,
+      "sample": {
+        "documentos": [
+          {
+            "id": "SIATA-RED",
+            "titulo": "SIATA - Red de monitoreo de calidad del aire",
+            "url": "https://siata.gov.co/sitio_web/index.php/calidad_aire",
+            "texto": "SIATA monitorea contaminantes atmosféricos, mantiene equipos de medición y aplica controles de calidad. En sus canales se publican datos actualizados de las estaciones automáticas. Este prototipo utiliza un resumen histórico de enero de 2025 y NO representa el aire actual.",
+            "score": 0.0823,
+            "backend": "tfidf"
+          },
+          {
+            "id": "SIATA-2025",
+            "titulo": "SIATA - Resumen estadístico enero 2025",
+            "url": "https://siata.gov.co/Informes_Aire/121_InformeProcuraduria_Enero2025/F-GAA-RA-82_InformeProcuraduria_Enero2025_Anexos.pdf",
+            "texto": "El anexo de enero de 2025 presenta estadísticos por estación del Valle de Aburrá para PM2.5: CMD número de muestras diarias, MAX-D máximo diario, MEAN-D promedio de muestras diarias, MIN-D mínimo diario y NEND número de excedencias a la norma diaria. Estos son resúmenes por mes, NO una serie diaria ni un dato actual.",
+            "score": 0.0434,
+            "backend": "tfidf"
+          },
+          {
+            "id": "ALCALDIA-CATEGORIAS",
+            "titulo": "Alcaldía de Medellín - Calidad del aire",
+            "url": "https://www.medellin.gov.co/es/secretaria-medio-ambiente/calidad-del-aire/aire-en-el-valle-de-aburra/",
+            "texto": "La Alcaldía presenta las bandas de PM2.5 en promedio de 24 horas: buena 0-12, aceptable 13-37, dañina para grupos sensibles 38-55, dañina para la salud 56-150, muy dañina 151-250, peligrosa 251-500 microgramos por metro cúbico. La categoría de una media mensual no constituye un índice oficial de calidad del aire de un día.",
+            "score": 0.0424,
+            "backend": "tfidf"
+          }
+        ],
+        "nota": "Corpus local curado; enlaces a fuentes originales."
+      }
+    }
+  },
+  "warning": "NO evalúa las decisiones ni las citas de ningún LLM."
+}

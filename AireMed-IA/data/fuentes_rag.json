@@ -1,0 +1,26 @@
+[
+  {
+    "id": "SIATA-2025",
+    "titulo": "SIATA - Resumen estadístico enero 2025",
+    "url": "https://siata.gov.co/Informes_Aire/121_InformeProcuraduria_Enero2025/F-GAA-RA-82_InformeProcuraduria_Enero2025_Anexos.pdf",
+    "texto": "El anexo de enero de 2025 presenta estadísticos por estación del Valle de Aburrá para PM2.5: CMD número de muestras diarias, MAX-D máximo diario, MEAN-D promedio de muestras diarias, MIN-D mínimo diario y NEND número de excedencias a la norma diaria. Estos son resúmenes por mes, NO una serie diaria ni un dato actual."
+  },
+  {
+    "id": "ALCALDIA-CATEGORIAS",
+    "titulo": "Alcaldía de Medellín - Calidad del aire",
+    "url": "https://www.medellin.gov.co/es/secretaria-medio-ambiente/calidad-del-aire/aire-en-el-valle-de-aburra/",
+    "texto": "La Alcaldía presenta las bandas de PM2.5 en promedio de 24 horas: buena 0-12, aceptable 13-37, dañina para grupos sensibles 38-55, dañina para la salud 56-150, muy dañina 151-250, peligrosa 251-500 microgramos por metro cúbico. La categoría de una media mensual no constituye un índice oficial de calidad del aire de un día."
+  },
+  {
+    "id": "ALCALDIA-PIGECA",
+    "titulo": "Alcaldía de Medellín - PIGECA y POECA",
+    "url": "https://www.medellin.gov.co/es/secretaria-medio-ambiente/calidad-del-aire/aire-en-el-valle-de-aburra/",
+    "texto": "La Alcaldía describe el PIGECA como plan metropolitano con medidas, metas e instrumentos de gestión para reducir la contaminación del aire; el POECA establece acciones extraordinarias frente a episodios de contaminación atmosférica que superen umbrales. Estas acciones dependen de las autoridades y de los protocolos correspondientes."
+  },
+  {
+    "id": "SIATA-RED",
+    "titulo": "SIATA - Red de monitoreo de calidad del aire",
+    "url": "https://siata.gov.co/sitio_web/index.php/calidad_aire",
+    "texto": "SIATA monitorea contaminantes atmosféricos, mantiene equipos de medición y aplica controles de calidad. En sus canales se publican datos actualizados de las estaciones automáticas. Este prototipo utiliza un resumen histórico de enero de 2025 y NO representa el aire actual."
+  }
+]

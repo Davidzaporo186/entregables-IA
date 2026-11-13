@@ -1,0 +1,9 @@
+.venv/
+venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+.env
+.streamlit/secrets.toml
+.DS_Store
+docs/resultados_llm.json
